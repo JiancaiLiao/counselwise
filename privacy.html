@@ -28,11 +28,18 @@
       <p>Nothing that identifies you. The site has no forms, no accounts and no document upload. The researchers do not collect, store or receive any personal data.</p>
 
       <h2>The Meta Pixel</h2>
-      <p>This site uses the Meta Pixel so that we can measure, in aggregate, how many people who clicked one of our adverts visited the page and how many pressed the "Join the waitlist" button. The pixel sets a cookie in your browser and sends event data to Meta. We see this data only as counts and cannot identify individuals from it.</p>
+      <p>This site uses the Meta Pixel so that we can measure, in aggregate, how people who clicked one of our adverts respond to the page. The pixel sets a cookie in your browser and sends event data to Meta. We see this data only as counts and cannot identify individuals from it.</p>
+      <p>The pixel records three events on this site, and nothing else:</p>
+      <ul>
+        <li><strong>PageView</strong>: that the page was opened.</li>
+        <li><strong>WaitlistClick</strong>: that the "Join the waitlist" button was pressed, together with one parameter, <em>arm</em>, which says which version of the advert brought you here (it is read from the link you clicked; if the link carries no version, it is recorded as "unknown").</li>
+        <li><strong>MC_answer</strong>: your answer to the quick check in the waitlist panel ("how many AI assistants did the ad mention?": one, four, or don't remember), together with the same <em>arm</em> parameter.</li>
+      </ul>
+      <p>No name, e-mail address, document or other personal information is collected by us at any point; the page has no forms.</p>
       <p>Meta processes this data under its own data policy, which you can read at https://www.facebook.com/privacy/policy. You can limit the pixel by blocking third-party cookies in your browser or through your Meta ad settings.</p>
 
       <h2>Session storage</h2>
-      <p>The page keeps one short value in your browser's session storage (which version of the advert brought you here) so that the counts above can be grouped correctly. It is deleted when you close the browser tab and is never sent to the researchers.</p>
+      <p>The page keeps one short value in your browser's session storage (which version of the advert brought you here) so that the events above can be grouped by advert version. It is deleted when you close the browser tab and is never sent to the researchers.</p>
 
       <h2>More about the study</h2>
       <p>See <a href="debrief.html">About this study</a> for what the research is about and how to contact the researchers.</p>

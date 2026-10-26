@@ -1,6 +1,9 @@
-/* Counselwise landing page behaviour
-   - reads the experimental arm from ?arm= (single | multi) and keeps it for the session
-   - opens the waitlist panel and records the two custom pixel events
+/* Counselwise landing page behaviour (S10 version, 26 Oct 2026; copied from S8 and changed only in the pixel events)
+   - reads the experimental arm from ?arm= (single | multi) and keeps it for the session; anything else is 'unknown'
+   - opens the waitlist panel and records the two custom pixel events, both stamped with the arm:
+       fbq('trackCustom', 'WaitlistClick', { arm: arm })
+       fbq('trackCustom', 'MC_answer',     { arm: arm, answer: 'one' | 'four' | 'dont_remember' })
+   - the page content is identical for both arms; the arm is never shown or used to change any text
    - falls back to console.log('[pixel]', ...) when the Meta Pixel is not loaded */
 
 (function () {
@@ -127,12 +130,12 @@
     }
   });
 
-  /* Ad-check question */
+  /* Manipulation-check question ("how many AI assistants did the ad mention?"); the answer goes to the pixel with the arm */
   var answerButtons = backdrop.querySelectorAll('[data-answer]');
   Array.prototype.forEach.call(answerButtons, function (btn) {
     btn.addEventListener('click', function () {
       var answer = btn.getAttribute('data-answer');
-      pixel('trackCustom', 'AdCheck', { arm: ARM, answer: answer });
+      pixel('trackCustom', 'MC_answer', { arm: ARM, answer: answer });
       if (question) { question.setAttribute('hidden', ''); }
       if (result) {
         result.removeAttribute('hidden');

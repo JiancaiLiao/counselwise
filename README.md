@@ -1,6 +1,8 @@
-# Counselwise landing page (JSR R1 Study 8)
+# Counselwise landing page (JSR R1 Study 10; copied from Study 8 on 26 Oct 2026)
 
 Static site for the Meta Ads A/B field experiment. Plain HTML, CSS and JS; no build step. GitHub Pages serves the folder as-is.
+
+**S10 changes from the S8 page (26 Oct 2026).** The page content is identical for both arms and carries no arm-related text. The pixel events now record the arm on both custom events: `WaitlistClick {arm}` and `MC_answer {arm, answer}` (the S8 event `AdCheck` renamed; `answer` is `one`, `four` or `dont_remember`). The arm is read from `?arm=` (single or multi), kept in session storage for the visit, and recorded as `unknown` when the parameter is missing or invalid. The privacy notice, the debrief page and the footer line state which events and parameters the pixel records. The S8 advert PNGs were removed from `assets/`. **Not pushed to GitHub**: whether S10 reuses the `counselwise` repository or a new path is the author's decision after the ethics check, so steps 2 and 3 below are on hold.
 
 ## Files
 
@@ -59,18 +61,19 @@ Any later edit is just another commit and push to `main`.
 Use one destination URL per ad, differing only in the `arm` and `utm_content` values:
 
 - Single arm:
-  `https://<user>.github.io/counselwise/?arm=single&utm_source=meta&utm_medium=paid&utm_campaign=s8&utm_content=single`
+  `https://<user>.github.io/<repo>/?arm=single&utm_source=meta&utm_medium=paid&utm_campaign=s10&utm_content=single`
 - Multi arm:
-  `https://<user>.github.io/counselwise/?arm=multi&utm_source=meta&utm_medium=paid&utm_campaign=s8&utm_content=multi`
+  `https://<user>.github.io/<repo>/?arm=multi&utm_source=meta&utm_medium=paid&utm_campaign=s10&utm_content=multi`
 
-The page reads `arm` and stamps it on every `WaitlistClick` and `AdCheck` event, so the two arms can be separated in Events Manager even though both ads point at the same page.
+The page reads `arm` and stamps it on every `WaitlistClick` and `MC_answer` event, so the two arms can be separated in Events Manager even though both ads point at the same page. A visit without a valid `arm` is recorded as `unknown`.
 
 ## 5. Meta Pixel Helper check
 
 1. Install the Meta Pixel Helper extension in Chrome.
 2. Open the live URL with `?arm=single`. The helper icon should show one pixel with a `PageView` event and the correct Pixel ID.
 3. Click **Join the waitlist**: the helper should list a custom event `WaitlistClick` with parameter `arm: single`.
-4. Answer the question: a custom event `AdCheck` with `arm` and `answer` should appear.
-5. Repeat with `?arm=multi`. In Events Manager > Test events you can watch the same events arrive in real time.
+4. Answer the question: a custom event `MC_answer` with `arm` and `answer` (`one`, `four` or `dont_remember`) should appear.
+5. Open the URL without `?arm=` in a fresh tab: both events should carry `arm: unknown`.
+6. Repeat with `?arm=multi`. In Events Manager > Test events you can watch the same events arrive in real time.
 
 If the helper reports "Pixel did not load", check that `PIXEL_ID_HERE` has been replaced in both places and that the site is served over `https`.
